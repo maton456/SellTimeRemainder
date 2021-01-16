@@ -1,6 +1,14 @@
 # SellTimeRemainder_GetItems
+## AWS Lambda設定
+- IAMロール：DynamoDBへのアクセス権
+- タイムアウト：3分（ライブラリのロードに5秒ほどかかる模様）
+- トリガー：EventBridge
+  - 2021年、毎日JST12時(=UT3時)に起動
+  - cron(0 3 * * ? 2021)
+
+## コードのアップロード手順
 AWS LambdaではPythonライブラリごとzipで固めてアップロードする必要があります。
-## ライブラリをコードと同じディレクトリにインストール
+### ライブラリをコードと同じディレクトリにインストール
 ```
 cd SellTimeRemainder_GetItems
 pip3 install requests -t ./
@@ -10,7 +18,7 @@ pip3 install beautifulsoup4 -t ./
 ```
 rm *.dist-info -r
 ```
-## ディレクトリごとzipで固める
+### ディレクトリごとzipで固める
 ```
 sudo apt install zip
 zip -r SellTimeRemainder_GetItems.zip ./*

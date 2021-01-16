@@ -1,0 +1,9 @@
+bin/
+bs4/
+certifi/
+chardet/
+idna/
+requests/
+soupsieve/
+urllib3/
+SellTimeRemainder_GetItems.zip

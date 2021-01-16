@@ -1,4 +1,6 @@
 # SellTimeRemainder_GetItems
+## 機能
+DynamoDBの全レコード（項目）を読み出し、各カードの本日の値段を取得して、DynamoDBに格納
 ## AWS Lambda設定
 - IAMロール：DynamoDBへのアクセス権
 - タイムアウト：3分（ライブラリのロードに5秒ほどかかる模様）

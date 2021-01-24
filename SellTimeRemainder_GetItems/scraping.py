@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import time
 
 def get_price(url):
     
@@ -11,6 +12,8 @@ def get_price(url):
     # トリム平均を取得
     price = int(str(str_table[0]).split('</td>')[1].split('円')[0].split('<span class="line">')[3].replace(' ', '').replace(',', ''))
     print(price)
+
+    time.sleep(1)  # Wisdom Guildサーバーに負荷をかけないため待機
     
     return price
 

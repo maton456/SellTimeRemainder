@@ -15,8 +15,6 @@ $ pip3 install mplfinance -t ./
 要らないものを削除
 ```
 $ rm *.dist-info -r
-$ rm *.so
-$ rm *.pth
 ```
 ディレクトリごとzipで固める
 ```
@@ -128,7 +126,7 @@ webコンソールでLambdaを開いて、オブジェクトURLを設定して�
   - 実行ロール: SellTimeRemainder_CreatePlotToS3
   - 再試行: 10回 （デフォルトの-1だと、lambdaがエラーになったときに無限に繰り返されてしまう可能性あり）
 - 設定→一般設定→編集
-  - タイムアウト: 10秒
+  - タイムアウト: 20秒
 - トリガー
   - トリガー: DynamoDB
   - DynamoDBテーブル: SellTimeRemainder

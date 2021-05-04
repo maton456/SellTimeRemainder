@@ -5,6 +5,7 @@ DynamoDBのレコードに変更があったことをトリガーとして起動
 # Lambdaへのデプロイ手順
 AWS LambdaではPythonライブラリごとzipで固めてアップロードする必要があります。
 
+## コードとライブラリをまとめたzipの作成
 ライブラリをコードと同じディレクトリにインストール
 ```
 $ cd SellTimeRemainder_CreatePlotToS3
@@ -27,22 +28,29 @@ $ zip -r SellTimeRemainder_CreatePlotToS3.zip ./*
 $ cp SellTimeRemainder_CreatePlotToS3.zip /mnt/c/Users/<Windowsユーザー名>/Desktop/
 ```
 
-### Lambdaへのデプロイ
+## Lambdaへのデプロイ
 zipのデプロイ方法は3通りある
 - (1)webコンソールからアップロード
 - (2)AWS CLIでアップロード
 - (3)S3に保存してwebコンソールからアップロード操作
-(1)は10MBまで、(2)は7MB程度まで。mplfinanceライブラリは、numpyやpandasを含むため、ライブラリを全てzipにすると40MB程度になる。よって選択肢は(3)のみ。
-- Amazon S3を経由してアップロードする手順
-  - S3でzipアップロード専用のバケットを作る。
-    - リージョン: us-west-2
-    - バケット名: lambda-zip-maton
-  - aws cliを使ってzipをアップロードする
-```sh:wsl2
+
+zip容量について、(1)は10MBまで、(2)は7MB程度までの制限がある。mplfinanceライブラリはnumpyやpandasを含むため、ライブラリ含めて全てzipにすると40MB程度になる。よって選択肢は(3)のみになる。
+
+### S3を経由してアップロードする手順
+S3でzipアップロード専用のバケットを作る。
+- リージョン: us-west-2
+- バケット名: lambda-zip-maton
+
+aws cliを使ってzipをアップロードする
+- aws cliにS3アクセス権限を持ったIAMユーザーをconfigure設定しておく必要あり
+```
 $ aws s3 cp SellTimeRemainder_CreatePlotToS3.zip s3://lambda-zip-maton/SellTimeRemainder_CreatePlotToS3.zip
 ```
-  - webコンソールでS3を開いて、アップロードしたzipのオブジェクトURL(https://lambda-zip-maton.s3-us-west-2.amazonaws.com/SellTimeRemainder_CreatePlotToS3.zip )をコピー
-  - webコンソールでLambdaを開いて、オブジェクトURLを設定する
+- aws cliを使わずに、webコンソールでS3を開いてアップロードしてもよい
+
+webコンソールでS3を開いて、アップロードしたzipのオブジェクトURL(https://lambda-zip-maton.s3-us-west-2.amazonaws.com/SellTimeRemainder_CreatePlotToS3.zip )をコピー
+
+webコンソールでLambdaを開いて、オブジェクトURLを設定してアップロード
 
 # AWS設定
 ## リソース
